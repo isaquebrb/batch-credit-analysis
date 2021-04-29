@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: batch_analysis
+      POSTGRES_USER: credit
+      POSTGRES_PASSWORD: 4n4l1s1s
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    ports:
+      - 5050:8080
