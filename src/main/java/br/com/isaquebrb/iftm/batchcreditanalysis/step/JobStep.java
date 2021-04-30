@@ -1,5 +1,6 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.step;
 
+import br.com.isaquebrb.iftm.batchcreditanalysis.listener.ProcessorListener;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.CreditAnalysis;
 import br.com.isaquebrb.iftm.batchcreditanalysis.processor.CustomProcessor;
 import br.com.isaquebrb.iftm.batchcreditanalysis.reader.CustomReader;
@@ -17,13 +18,17 @@ public class JobStep {
     private final CustomReader customReader;
     private final CustomProcessor customProcessor;
     private final CustomWriter customWriter;
+    private final ProcessorListener listener;
 
-    public Step processFileStep() {
+    public Step processFileStep(String pathFile) {
         return stepBuilder.get("processFileStep")
                 .<CreditAnalysis, CreditAnalysis>chunk(100)
-                .reader(customReader.documentReader())
+                .reader(customReader.documentReader(pathFile))
                 .processor(customProcessor.documentProcessor())
                 .writer(customWriter.documentWriter())
+                .listener(listener)
+                .faultTolerant()
+                .skipPolicy(new CustomSkipPolicy())
                 .build();
     }
 }

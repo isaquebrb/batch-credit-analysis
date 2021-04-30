@@ -1,27 +1,48 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Entity
 @ToString
 @NoArgsConstructor
+@Entity
+@Table(name = "credit_analysis")
 public class CreditAnalysis {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "document")
     private String document;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
     private AnalysisStatus status;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "person_type")
     private PersonType personType;
+
+    @Column(name = "rejection_reason")
     private String rejectionReason;
+
+    @Column(name = "start_date")
     private LocalDateTime startDate;
+
+    @Column(name = "end_date")
     private LocalDateTime endDate;
+
+    @Column(name = "email")
     private String email;
-    private String cellphoneNumber;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    //todo parameter table, process
 }
