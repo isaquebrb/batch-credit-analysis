@@ -1,4 +1,4 @@
-package br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.crednet;
+package br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -7,16 +7,16 @@ import lombok.Getter;
 public class PendencyDetail {
 
     @JsonProperty("data_ocorrencia")
-    private String occurrenceDate;
+    private String date;
 
     @JsonProperty("modalidade")
     private String modality;
 
     @JsonProperty("avalista")
-    private String avalista;
+    private String guarantor;
 
     @JsonProperty("valor")
-    private String valor;
+    private String value;
 
     @JsonProperty("contrato")
     private String contract;
@@ -26,5 +26,4 @@ public class PendencyDetail {
 
     @JsonProperty("tipo_anotacao")
     private String typeAnnotation;
-
 }
