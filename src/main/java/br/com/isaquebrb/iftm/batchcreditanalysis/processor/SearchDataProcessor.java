@@ -1,13 +1,12 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.processor;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
-import br.com.isaquebrb.iftm.batchcreditanalysis.exception.DatabaseException;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.CreditAnalysis;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import org.springframework.batch.item.ItemProcessor;
 
 import java.util.Random;
 
-public class DataProcessor implements ItemProcessor<CreditAnalysis, CreditAnalysis> {
+public class SearchDataProcessor implements ItemProcessor<CreditAnalysis, CreditAnalysis> {
 
     @Override
     public CreditAnalysis process(CreditAnalysis item) throws Exception {

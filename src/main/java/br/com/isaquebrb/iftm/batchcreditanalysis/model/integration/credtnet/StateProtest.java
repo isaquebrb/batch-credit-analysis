@@ -7,12 +7,6 @@ import lombok.Getter;
 @Getter
 public class StateProtest extends CommonInfo {
 
-    public StateProtest(String hasInfo, StateProtestContent content, Integer quantity) {
-        super(hasInfo);
-        this.content = content;
-        this.quantity = quantity;
-    }
-
     @JsonProperty("conteudo")
     private StateProtestContent content;
 

@@ -7,12 +7,6 @@ import lombok.Getter;
 @Getter
 public class Bacen extends CommonInfo {
 
-    public Bacen(String hasInfo, BacenContent content, Integer quantity) {
-        super(hasInfo);
-        this.content = content;
-        this.quantity = quantity;
-    }
-
     @JsonProperty("quantidade")
     private Integer quantity;
 

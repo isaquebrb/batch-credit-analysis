@@ -1,6 +1,6 @@
-package br.com.isaquebrb.iftm.batchcreditanalysis.reader;
+package br.com.isaquebrb.iftm.batchcreditanalysis.job;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.CreditAnalysis;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -8,7 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomReader {
+public class Readers {
 
     public ItemReader<CreditAnalysis> documentReader(String pathFile) {
         return new FlatFileItemReaderBuilder<CreditAnalysis>()

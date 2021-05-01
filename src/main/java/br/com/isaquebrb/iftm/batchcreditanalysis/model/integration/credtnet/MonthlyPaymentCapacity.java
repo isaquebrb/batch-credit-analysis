@@ -7,11 +7,6 @@ import lombok.Getter;
 @Getter
 public class MonthlyPaymentCapacity extends CommonInfo {
 
-    public MonthlyPaymentCapacity(String hasInfo, MonthlyPaymentCapacityContent content) {
-        super(hasInfo);
-        this.content = content;
-    }
-
     @JsonProperty("conteudo")
     private MonthlyPaymentCapacityContent content;
 }

@@ -1,7 +1,7 @@
-package br.com.isaquebrb.iftm.batchcreditanalysis.writer;
+package br.com.isaquebrb.iftm.batchcreditanalysis.job;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.AnalysisStatus;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.CreditAnalysis;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatus;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.CreditAnalysisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CustomWriter {
+public class Writers {
 
     private final CreditAnalysisService analysisService;
 

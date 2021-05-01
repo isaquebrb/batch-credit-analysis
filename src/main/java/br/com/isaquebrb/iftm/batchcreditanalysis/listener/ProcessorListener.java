@@ -1,7 +1,7 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.listener;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.AnalysisStatus;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.CreditAnalysis;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatus;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.CreditAnalysisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

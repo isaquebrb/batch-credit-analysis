@@ -7,11 +7,6 @@ import lombok.Getter;
 @Getter
 public class CreditRiskRating extends CommonInfo {
 
-    public CreditRiskRating(String hasInfo, CreditRiskRatingContent content) {
-        super(hasInfo);
-        this.content = content;
-    }
-
     @JsonProperty("conteudo")
     private CreditRiskRatingContent content;
 }

@@ -1,5 +1,8 @@
-package br.com.isaquebrb.iftm.batchcreditanalysis.model;
+package br.com.isaquebrb.iftm.batchcreditanalysis.model.entity;
 
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatus;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonType;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.Crednet;
 import lombok.*;
 
 import javax.persistence.*;

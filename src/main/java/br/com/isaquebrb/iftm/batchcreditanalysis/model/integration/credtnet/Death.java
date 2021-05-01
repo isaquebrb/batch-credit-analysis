@@ -7,11 +7,6 @@ import lombok.Getter;
 @Getter
 public class Death extends CommonInfo {
 
-    public Death(String hasInfo, DeathContent content) {
-        super(hasInfo);
-        this.content = content;
-    }
-
     @JsonProperty("conteudo")
     private DeathContent content;
 }

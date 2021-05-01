@@ -7,11 +7,6 @@ import lombok.Getter;
 @Getter
 public class CrednetPerson extends CommonInfo {
 
-    public CrednetPerson(String hasInfo, CrednetPersonContent content) {
-        super(hasInfo);
-        this.content = content;
-    }
-
     @JsonProperty("conteudo")
     private CrednetPersonContent content;
 }

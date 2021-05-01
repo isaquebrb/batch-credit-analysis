@@ -1,7 +1,7 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.service;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.DatabaseException;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.CreditAnalysis;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import br.com.isaquebrb.iftm.batchcreditanalysis.repository.CreditAnalysisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

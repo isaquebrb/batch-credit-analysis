@@ -7,12 +7,6 @@ import lombok.Getter;
 @Getter
 public class FinancialPendency extends CommonInfo {
 
-    public FinancialPendency(String hasInfo, FinancialPendencyContent content, Integer quantity) {
-        super(hasInfo);
-        this.content = content;
-        this.quantity = quantity;
-    }
-
     @JsonProperty("quantidade")
     private Integer quantity;
 

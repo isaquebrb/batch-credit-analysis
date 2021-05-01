@@ -1,22 +1,19 @@
-package br.com.isaquebrb.iftm.batchcreditanalysis.config;
+package br.com.isaquebrb.iftm.batchcreditanalysis.job;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.step.JobStep;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
-@EnableBatchProcessing
+@Component
 @RequiredArgsConstructor
-public class JobConfig {
+public class Jobs {
 
     private final JobBuilderFactory jobBuilder;
-    private final JobStep step;
+    private final Steps step;
 
     @Value("${file.input}")
     private String pathFile;

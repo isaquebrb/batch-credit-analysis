@@ -7,11 +7,6 @@ import lombok.Getter;
 @Getter
 public class ScoreSerasa extends CommonInfo {
 
-    public ScoreSerasa(String hasInfo, ScoreSerasaContent content) {
-        super(hasInfo);
-        this.content = content;
-    }
-
     @JsonProperty("conteudo")
     private ScoreSerasaContent content;
 }

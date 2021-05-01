@@ -1,7 +1,6 @@
-package br.com.isaquebrb.iftm.batchcreditanalysis.processor;
+package br.com.isaquebrb.iftm.batchcreditanalysis.processor.validator;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.CreditAnalysis;
-import br.com.isaquebrb.iftm.batchcreditanalysis.processor.validator.DocumentValidator;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import org.springframework.batch.item.validator.ValidatingItemProcessor;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.controller;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.AnalysisStatus;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.CreditAnalysis;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.PersonType;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatus;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonType;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.CreditAnalysisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.*;

@@ -7,11 +7,6 @@ import lombok.Getter;
 @Getter
 public class PresumedIncome extends CommonInfo {
 
-    public PresumedIncome(String hasInfo, PresumedIncomeContent content){
-        super(hasInfo);
-        this.content = content;
-    }
-
     @JsonProperty("conteudo")
     private PresumedIncomeContent content;
 }
