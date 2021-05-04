@@ -1,5 +1,6 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.service;
 
+import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.DatabaseException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterRequest;
@@ -65,6 +66,16 @@ public class ParameterService {
         } catch (Exception e) {
             log.error("[ParameterService.update] Error trying to update parameter {}", request.toString(), e);
             throw new DatabaseException("Error trying to update parameter " + request.toString());
+        }
+    }
+
+    public Parameter findByName(String name) {
+        try {
+            return repository.findByName(name);
+        } catch (Exception e) {
+            //todo test non existing name
+            log.error("[ParameterService.findByName] Error trying get parameter with name {}", name);
+            throw new BusinessException("");
         }
     }
 

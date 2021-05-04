@@ -3,9 +3,11 @@ package br.com.isaquebrb.iftm.batchcreditanalysis.processor;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+@Component
 public class SearchDataProcessor implements ItemProcessor<CreditAnalysis, CreditAnalysis> {
 
     @Override

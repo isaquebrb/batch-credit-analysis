@@ -19,7 +19,7 @@ public class Parameter extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @Column(name = "description")
@@ -37,15 +37,17 @@ public class Parameter extends BaseEntity {
     @Column(name = "boolean_value")
     private Boolean booleanValue;
 
+    @Column(name = "active")
+    private Boolean active;
+
     public ParameterResponse toDto() {
-        ParameterResponse response = new ParameterResponse();
-        response.setId(this.id);
-        response.setName(this.name);
-        response.setDescription(this.description);
-        response.setStringValue(this.stringValue);
-        response.setIntegerValue(this.integerValue);
-        response.setNumericValue(this.numericValue);
-        response.setBooleanValue(this.booleanValue);
-        return response;
+        return ParameterResponse.builder()
+                .name(this.name)
+                .description(this.description)
+                .stringValue(this.stringValue)
+                .integerValue(this.integerValue)
+                .numericValue(this.numericValue)
+                .booleanValue(this.booleanValue)
+                .active(this.active).build();
     }
 }

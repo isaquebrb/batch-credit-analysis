@@ -1,6 +1,6 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.job;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatus;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.CreditAnalysisService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class Writers {
             for (CreditAnalysis item : items) {
                 try {
                     item.setEndDate(LocalDateTime.now());
-                    item.setStatus(AnalysisStatus.APPROVED);
+                    item.setStatus(AnalysisStatusEnum.APPROVED);
                     analysisService.save(item);
                 } catch (Exception e) {
                     log.error("[CustomWriter.documentWriter] Error trying to write {} object.", item.toString(), e);

@@ -1,6 +1,6 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.listener;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatus;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.CreditAnalysisService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class ProcessorListener implements ItemProcessListener<CreditAnalysis, Cr
 
     @Override
     public void onProcessError(CreditAnalysis item, Exception e) {
-        item.setStatus(AnalysisStatus.ERROR);
+        item.setStatus(AnalysisStatusEnum.ERROR);
         item.setEndDate(LocalDateTime.now());
         item = service.save(item);
         log.info("Error on {}", item.toString());

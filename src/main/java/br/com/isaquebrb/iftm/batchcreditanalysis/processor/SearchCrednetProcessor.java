@@ -1,33 +1,37 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.processor;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.integration.GeneratorCreditInfoClient;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonType;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.Crednet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.stereotype.Component;
-
-import javax.xml.bind.ValidationException;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SearchCrednetProcessor implements ItemProcessor<CreditAnalysis, Crednet> {
+public class SearchCrednetProcessor implements ItemProcessor<ProcessPerson, ProcessPerson> {
 
     private final GeneratorCreditInfoClient generatorInfoClient;
 
     @Override
-    public Crednet process(CreditAnalysis item) throws Exception {
+    public ProcessPerson process(ProcessPerson item) {
+        CreditAnalysis analysis = item.getCreditAnalysis();
+
         Crednet crednet;
 
-        if (item.getPersonType().equals(PersonType.PF))
-            crednet = generatorInfoClient.getCrednetPf(item.getDocument());
-        else if (item.getPersonType().equals(PersonType.PJ))
-            crednet = generatorInfoClient.getCrednetPj(item.getDocument());
+        if (analysis.getPersonType().equals(PersonTypeEnum.PF))
+            crednet = generatorInfoClient.getCrednetPf(analysis.getDocument());
+        else if (analysis.getPersonType().equals(PersonTypeEnum.PJ))
+            crednet = generatorInfoClient.getCrednetPj(analysis.getDocument());
         else
-            throw new ValidationException("[]");
-        return crednet;
+            throw new ValidationException("");
+
+        item.setCrednet(crednet);
+        return item;
     }
 }

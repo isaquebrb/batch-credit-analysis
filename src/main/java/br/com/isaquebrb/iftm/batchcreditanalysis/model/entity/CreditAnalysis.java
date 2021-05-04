@@ -1,8 +1,7 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model.entity;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatus;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonType;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.Crednet;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,11 +25,11 @@ public class CreditAnalysis {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
-    private AnalysisStatus status;
+    private AnalysisStatusEnum status;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "person_type")
-    private PersonType personType;
+    private PersonTypeEnum personType;
 
     @Column(name = "rejection_reason")
     private String rejectionReason;

@@ -1,7 +1,6 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
@@ -11,7 +10,7 @@ public class CreditRiskRatingContent {
     private String scorePoints;
 
     @JsonProperty("inadimplencia")
-    private String defaultRate;
+    private String nonPayment;
 
     @JsonProperty("mensagem")
     private String message;

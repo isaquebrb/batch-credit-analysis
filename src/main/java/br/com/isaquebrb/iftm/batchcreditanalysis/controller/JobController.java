@@ -1,8 +1,8 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.controller;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatus;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonType;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.CreditAnalysisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.*;
@@ -42,8 +42,8 @@ public class JobController {
     public ResponseEntity<CreditAnalysis> saveAnalysis() {
         CreditAnalysis analysis = new CreditAnalysis();
         analysis.setDocument("123456789");
-        analysis.setPersonType(PersonType.PJ);
-        analysis.setStatus(AnalysisStatus.ERROR);
+        analysis.setPersonType(PersonTypeEnum.PJ);
+        analysis.setStatus(AnalysisStatusEnum.ERROR);
         analysis.setStartDate(LocalDateTime.now().minusMinutes(2));
         analysis.setEndDate(LocalDateTime.now());
         return ResponseEntity.ok(service.save(analysis));

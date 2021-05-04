@@ -1,12 +1,10 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model.dto;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
+@Builder
 @Getter
-@NoArgsConstructor
 public class ParameterResponse {
 
     private Long id;
@@ -22,4 +20,6 @@ public class ParameterResponse {
     private Double numericValue;
 
     private Boolean booleanValue;
+
+    private Boolean active;
 }

@@ -23,7 +23,9 @@ public class ParameterRequest {
 
     private Double numericValue;
 
-    private Boolean booleanValue;
+    private Boolean booleanValue; //todo test update/save with string in this field
+
+    private Boolean active;
 
     public Parameter toEntity() {
         Parameter parameter = new Parameter();
@@ -33,6 +35,7 @@ public class ParameterRequest {
         parameter.setIntegerValue(this.integerValue);
         parameter.setNumericValue(this.numericValue);
         parameter.setBooleanValue(this.booleanValue);
+        parameter.setActive(this.active);
         return parameter;
     }
 }
