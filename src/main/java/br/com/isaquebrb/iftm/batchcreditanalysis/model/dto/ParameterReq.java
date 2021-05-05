@@ -6,11 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
 @ToString
-public class ParameterRequest {
+//todo change name to request
+public class ParameterReq {
 
     @NotBlank(message = "Name is mandatory")
     private String name;
@@ -21,10 +23,11 @@ public class ParameterRequest {
 
     private Integer integerValue;
 
-    private Double numericValue;
+    private BigDecimal numericValue;
 
     private Boolean booleanValue; //todo test update/save with string in this field
 
+    //todo @NotNull(message = "Active is mandatory") test not sending this
     private Boolean active;
 
     public Parameter toEntity() {

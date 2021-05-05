@@ -1,11 +1,14 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.service;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.DatabaseException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterRequest;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterReq;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterResponse;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.Parameter;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.BooleanParameterEnum;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.IParameter;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.IntegerParameterEnum;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.NumericParameterEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.repository.ParameterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +16,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +27,7 @@ public class ParameterService {
 
     private final ParameterRepository repository;
 
-    public ParameterResponse save(ParameterRequest request) {
+    public ParameterResponse save(ParameterReq request) {
         try {
             Parameter newParameter = repository.save(request.toEntity());
             return newParameter.toDto();
@@ -53,7 +57,7 @@ public class ParameterService {
         }
     }
 
-    public ParameterResponse update(Long id, ParameterRequest request) {
+    public ParameterResponse update(Long id, ParameterReq request) {
         Parameter parameter = getParameterById(id);
         parameter.setDescription(request.getDescription());
         parameter.setStringValue(request.getStringValue());
@@ -71,11 +75,11 @@ public class ParameterService {
 
     public Parameter findByName(String name) {
         try {
-            return repository.findByName(name);
-        } catch (Exception e) {
+            return repository.findByName(name).orElseThrow(EntityNotFoundException::new);
+        } catch (EntityNotFoundException e) {
             //todo test non existing name
             log.error("[ParameterService.findByName] Error trying get parameter with name {}", name);
-            throw new BusinessException("");
+            throw new SystemException("");
         }
     }
 
@@ -89,5 +93,20 @@ public class ParameterService {
             log.error("[ParameterService.getParameterById] Id is null");
             throw new SystemException("Error trying to get parameter with id null");
         }
+    }
+
+    public Integer getParameter(IntegerParameterEnum parameter) {
+        return repository.findByName(parameter.name()).map(Parameter::getIntegerValue)
+                .orElse(parameter.getDefaultValue());
+    }
+
+    public Boolean getParameter(BooleanParameterEnum parameter) {
+        return repository.findByName(parameter.name()).map(Parameter::getBooleanValue)
+                .orElse(parameter.getDefaultValue());
+    }
+
+    public BigDecimal getParameter(NumericParameterEnum parameter){
+        return repository.findByName(parameter.name()).map(Parameter::getNumericValue)
+                .orElse(parameter.getDefaultValue());
     }
 }

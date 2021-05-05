@@ -1,21 +1,19 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.processor;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
-import org.springframework.batch.item.ItemProcessor;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.InformationTypeEnum;
 import org.springframework.stereotype.Component;
 
-import java.util.Random;
-
 @Component
-public class SearchDataProcessor implements ItemProcessor<CreditAnalysis, CreditAnalysis> {
+public class SearchDataProcessor implements SearchProcessor {
 
     @Override
-    public CreditAnalysis process(CreditAnalysis item) throws Exception {
-        if (new Random().nextBoolean()) {
-            throw new BusinessException("ERRO MALDITO");
-        }
-        item.setPhoneNumber("34997755122");
-        return item;
+    public ProcessPerson process(ProcessPerson item) throws Exception {
+        return null;
+    }
+
+    @Override
+    public InformationTypeEnum getInfoType() {
+        return InformationTypeEnum.DATA;
     }
 }

@@ -4,7 +4,12 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.Parameter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ParameterRepository extends JpaRepository<Parameter, Long> {
-    Parameter findByName(String name);
+
+    //todo cache
+    Optional<Parameter> findByName(String name);
+
 }

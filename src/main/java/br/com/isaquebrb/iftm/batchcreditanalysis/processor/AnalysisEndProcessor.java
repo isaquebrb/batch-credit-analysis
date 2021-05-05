@@ -1,6 +1,6 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.processor;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ProcessPerson;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import org.springframework.batch.item.ItemProcessor;
 

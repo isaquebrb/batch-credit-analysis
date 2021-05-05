@@ -1,7 +1,7 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model.enums;
 
-public interface IParameter<T> {
-
-    T getDefaultValue();
-
+public enum InformationTypeEnum {
+    DATA,
+    PEP,
+    CREDNET
 }

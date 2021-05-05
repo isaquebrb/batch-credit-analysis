@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -32,7 +33,7 @@ public class Parameter extends BaseEntity {
     private Integer integerValue;
 
     @Column(name = "numeric_value")
-    private Double numericValue;
+    private BigDecimal numericValue;
 
     @Column(name = "boolean_value")
     private Boolean booleanValue;
