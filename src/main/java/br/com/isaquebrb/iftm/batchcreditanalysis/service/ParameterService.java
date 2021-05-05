@@ -5,10 +5,7 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterReq;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterResponse;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.Parameter;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.BooleanParameterEnum;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.IParameter;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.IntegerParameterEnum;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.NumericParameterEnum;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.*;
 import br.com.isaquebrb.iftm.batchcreditanalysis.repository.ParameterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -107,6 +104,11 @@ public class ParameterService {
 
     public BigDecimal getParameter(NumericParameterEnum parameter){
         return repository.findByName(parameter.name()).map(Parameter::getNumericValue)
+                .orElse(parameter.getDefaultValue());
+    }
+
+    public String getParameter(StringParameterEnum parameter) {
+        return repository.findByName(parameter.name()).map(Parameter::getStringValue)
                 .orElse(parameter.getDefaultValue());
     }
 }

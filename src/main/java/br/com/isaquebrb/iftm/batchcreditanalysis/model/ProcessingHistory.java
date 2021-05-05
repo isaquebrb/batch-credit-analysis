@@ -16,6 +16,11 @@ public class ProcessingHistory {
     private AnalysisStatusEnum ageAnalysis;
 
     private BigDecimal valueBacenChecks;
-    private Integer amountBacenChecks;
-    private AnalysisStatusEnum bacenAnalysis;
+    private AnalysisStatusEnum bacenPendencyAnalysis;
+
+    private String documentSituation;
+    private AnalysisStatusEnum documentSituationAnalysis;
+
+    private BigDecimal valueFinancialPendencies;
+    private AnalysisStatusEnum financialPendencyAnalysis;
 }

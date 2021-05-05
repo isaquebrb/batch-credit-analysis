@@ -4,6 +4,7 @@ import org.apache.logging.log4j.util.Strings;
 
 public class RegexUtils {
     private RegexUtils() {
+        //Utility class
     }
 
     public static String removeNonNumeric(String text) {

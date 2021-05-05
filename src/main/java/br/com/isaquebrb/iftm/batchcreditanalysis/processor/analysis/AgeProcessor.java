@@ -48,6 +48,6 @@ public class AgeProcessor implements AnalysisProcessor {
 
     @Override
     public AnalysisValidationEnum getEnumName() {
-        return AnalysisValidationEnum.MINIMUM_AGE;
+        return AnalysisValidationEnum.AGE;
     }
 }
