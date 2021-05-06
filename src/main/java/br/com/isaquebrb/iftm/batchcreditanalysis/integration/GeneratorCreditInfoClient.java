@@ -1,7 +1,6 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.integration;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.CrednetPf;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.CrednetPj;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.Crednet;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface GeneratorCreditInfoClient {
 
     @GetMapping(value = "crednet/pf/{document}")
-    CrednetPf getCrednetPf(@PathVariable String document);
+    Crednet getCrednetPf(@PathVariable String document);
 
     @GetMapping(value = "crednet/pj/{document}")
-    CrednetPj getCrednetPj(@PathVariable String document);
+    Crednet getCrednetPj(@PathVariable String document);
 }

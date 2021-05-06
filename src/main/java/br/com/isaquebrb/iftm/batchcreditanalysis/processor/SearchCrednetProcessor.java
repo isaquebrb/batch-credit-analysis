@@ -30,6 +30,7 @@ public class SearchCrednetProcessor implements SearchProcessor {
             crednet = generatorInfoClient.getCrednetPj(analysis.getDocument());
         else
             throw new ValidationException("");
+        //todo add log if listener dont get
 
         item.setCrednet(crednet);
         return item;
