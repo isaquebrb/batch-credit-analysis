@@ -20,7 +20,8 @@ public class PepProcessor implements AnalysisProcessor {
             if (!item.getCreditAnalysis().getPersonType().equals(PersonTypeEnum.PF))
                 return item;
 
-            boolean isPep = item.getPep().getPepConfirmation().trim().equalsIgnoreCase("SIM");
+            boolean isPep = item.getPepResponse().getPep().getPepConfirmation().trim()
+                    .equalsIgnoreCase("SIM");
 
             item.getProcessingHistory().setIsPep(isPep);
 

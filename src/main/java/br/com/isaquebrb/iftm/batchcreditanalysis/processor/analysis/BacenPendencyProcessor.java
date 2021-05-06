@@ -5,7 +5,7 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.NumericParameterEnum;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.Bacen;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.credtnet.Bacen;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.ParameterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class BacenPendencyProcessor implements AnalysisProcessor {
     @Override
     public ProcessPerson process(ProcessPerson item) throws Exception {
         try {
-            Bacen bacen = item.getCrednet().getBacen();
+            Bacen bacen = item.getCrednetResponse().getCrednet().getBacen();
 
             if (bacen.getHasInformation().trim().equalsIgnoreCase("SIM") &&
                     bacen.getContent().getBacenChecks() == null) {

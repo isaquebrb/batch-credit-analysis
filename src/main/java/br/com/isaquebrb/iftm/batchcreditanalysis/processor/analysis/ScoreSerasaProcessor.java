@@ -22,7 +22,8 @@ public class ScoreSerasaProcessor implements AnalysisProcessor {
         try {
             Integer minSerasaScore = parameterService.getParameter(IntegerParameterEnum.MIN_SCORE_SERASA);
 
-            Integer personScoreSerasa = Integer.parseInt(item.getCrednet().getScoreSerasa().getContent().getScore());
+            Integer personScoreSerasa = Integer.parseInt(
+                    item.getCrednetResponse().getCrednet().getScoreSerasa().getContent().getScore());
 
             item.getProcessingHistory().setScoreSerasa(personScoreSerasa);
 
@@ -30,7 +31,8 @@ public class ScoreSerasaProcessor implements AnalysisProcessor {
                 item.getProcessingHistory().setScoreSerasaAnalysis(AnalysisStatusEnum.APPROVED);
                 return item;
             } else {
-                throw new BusinessException("Score serasa menor (" + personScoreSerasa + ") que o valor mínimo (" + minSerasaScore + ")");
+                throw new BusinessException("Score serasa menor (" + personScoreSerasa
+                        + ") que o valor mínimo (" + minSerasaScore + ")");
             }
         } catch (BusinessException e) {
             log.warn("[ScoreSerasaProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage());

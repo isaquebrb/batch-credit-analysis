@@ -21,7 +21,7 @@ public class DocumentSituationProcessor implements AnalysisProcessor {
     public ProcessPerson process(ProcessPerson item) throws Exception {
         try {
             String docSituation = parameterService.getParameter(StringParameterEnum.RF_DOC_SITUATION);
-            String personDocSituation = item.getCrednet().getPersonInfo().getContent().getDocSituation().trim();
+            String personDocSituation = item.getCrednetResponse().getCrednet().getPersonInfo().getContent().getDocSituation().trim();
 
             item.getProcessingHistory().setDocumentSituation(personDocSituation);
 

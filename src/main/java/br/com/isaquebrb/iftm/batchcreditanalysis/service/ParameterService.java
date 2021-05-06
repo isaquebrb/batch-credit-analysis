@@ -2,8 +2,8 @@ package br.com.isaquebrb.iftm.batchcreditanalysis.service;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.DatabaseException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterReq;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterResponse;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.request.ParameterRequest;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.ParameterResponse;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.Parameter;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.*;
 import br.com.isaquebrb.iftm.batchcreditanalysis.repository.ParameterRepository;
@@ -24,7 +24,7 @@ public class ParameterService {
 
     private final ParameterRepository repository;
 
-    public ParameterResponse save(ParameterReq request) {
+    public ParameterResponse save(ParameterRequest request) {
         try {
             Parameter newParameter = repository.save(request.toEntity());
             return newParameter.toDto();
@@ -54,7 +54,7 @@ public class ParameterService {
         }
     }
 
-    public ParameterResponse update(Long id, ParameterReq request) {
+    public ParameterResponse update(Long id, ParameterRequest request) {
         Parameter parameter = getParameterById(id);
         parameter.setDescription(request.getDescription());
         parameter.setStringValue(request.getStringValue());

@@ -1,7 +1,7 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.controller;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterReq;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterResponse;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.request.ParameterRequest;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.ParameterResponse;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.ParameterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,12 +29,12 @@ public class ParameterController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<ParameterResponse> create(@RequestBody ParameterReq request) {
+    public ResponseEntity<ParameterResponse> create(@RequestBody ParameterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ParameterResponse> update(@PathVariable Long id, @Valid @RequestBody ParameterReq request) {
+    public ResponseEntity<ParameterResponse> update(@PathVariable Long id, @Valid @RequestBody ParameterRequest request) {
         return ResponseEntity.ok(service.update(id, request));
     }
 }

@@ -27,7 +27,7 @@ public class NoPaymentProcessor implements AnalysisProcessor {
                 return item;
 
             BigDecimal personNoPaymentRate = BigDecimal.valueOf(Double.parseDouble(
-                    item.getCrednet().getCreditRiskRating().getContent().getNonPayment()));
+                    item.getCrednetResponse().getCrednet().getCreditRiskRating().getContent().getNonPayment()));
 
             BigDecimal maxNoPaymentRate = parameterService.getParameter(NumericParameterEnum.MAX_NO_PAYMENT_RATE);
 
@@ -37,7 +37,8 @@ public class NoPaymentProcessor implements AnalysisProcessor {
                 item.getProcessingHistory().setNoPaymentAnalysis(AnalysisStatusEnum.APPROVED);
                 return item;
             } else {
-                throw new BusinessException("A taxa de inadimplência (" + personNoPaymentRate + ") ultrapassou o limite (" + maxNoPaymentRate + ")");
+                throw new BusinessException("A taxa de inadimplência (" + personNoPaymentRate
+                        + ") ultrapassou o limite (" + maxNoPaymentRate + ")");
             }
         } catch (BusinessException e) {
             log.warn("[NoPaymentProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage());

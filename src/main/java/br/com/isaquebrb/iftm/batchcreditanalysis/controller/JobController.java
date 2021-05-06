@@ -32,20 +32,4 @@ public class JobController {
         JobExecution execution = jobLauncher.run(processFileJobSample, parameters);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> testAsync() {
-        return ResponseEntity.ok("Testado");
-    }
-
-    @GetMapping("/save")
-    public ResponseEntity<CreditAnalysis> saveAnalysis() {
-        CreditAnalysis analysis = new CreditAnalysis();
-        analysis.setDocument("123456789");
-        analysis.setPersonType(PersonTypeEnum.PJ);
-        analysis.setStatus(AnalysisStatusEnum.ERROR);
-        analysis.setStartDate(LocalDateTime.now().minusMinutes(2));
-        analysis.setEndDate(LocalDateTime.now());
-        return ResponseEntity.ok(service.save(analysis));
-    }
 }

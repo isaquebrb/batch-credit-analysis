@@ -1,9 +1,9 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model;
 
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.CrednetResponse;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.DataResponse;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.PepResponse;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.Crednet;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.data.Data;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.pep.Pep;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,9 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProcessPerson {
 
-    ProcessingHistory processingHistory;
+    ProcessingHistory processingHistory = new ProcessingHistory();
     CreditAnalysis creditAnalysis;
-    Crednet crednet;
-    Data data;
-    Pep pep;
+    CrednetResponse crednetResponse;
+    DataResponse dataResponse;
+    PepResponse pepResponse;
 }

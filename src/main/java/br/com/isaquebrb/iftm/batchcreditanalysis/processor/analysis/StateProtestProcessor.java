@@ -5,7 +5,7 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.NumericParameterEnum;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.StateProtest;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.credtnet.StateProtest;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.ParameterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class StateProtestProcessor implements AnalysisProcessor {
     @Override
     public ProcessPerson process(ProcessPerson item) throws Exception {
         try {
-            StateProtest protest = item.getCrednet().getStateProtest();
+            StateProtest protest = item.getCrednetResponse().getCrednet().getStateProtest();
 
             if (protest.getHasInformation().trim().equalsIgnoreCase("SIM") &&
                     protest.getContent().getValue() == null) {

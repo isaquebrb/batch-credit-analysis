@@ -20,7 +20,7 @@ public class AgeProcessor implements AnalysisProcessor {
     @Override
     public ProcessPerson process(ProcessPerson item) throws Exception {
         try {
-            Integer personAge = Integer.valueOf(item.getData().getName().getContent().getAge());
+            Integer personAge = Integer.valueOf(item.getDataResponse().getData().getName().getContent().getAge());
 
             Integer minAge = parameterService.getParameter(IntegerParameterEnum.MIN_AGE);
             Integer maxAge = parameterService.getParameter(IntegerParameterEnum.MAX_AGE);

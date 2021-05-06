@@ -1,6 +1,6 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model.entity;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.ParameterResponse;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.ParameterResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

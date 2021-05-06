@@ -20,7 +20,7 @@ public class DeathProcessor implements AnalysisProcessor {
             if (item.getCreditAnalysis().getPersonType().equals(PersonTypeEnum.PJ))
                 return item;
 
-            boolean isDead = item.getCrednet().getDeath().getContent().getMessage().trim()
+            boolean isDead = item.getCrednetResponse().getCrednet().getDeath().getContent().getMessage().trim()
                     .equalsIgnoreCase("OBITO");
 
             item.getProcessingHistory().setIsDead(isDead);

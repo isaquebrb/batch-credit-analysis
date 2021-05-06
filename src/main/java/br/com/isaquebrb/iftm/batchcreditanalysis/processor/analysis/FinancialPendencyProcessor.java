@@ -5,7 +5,7 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.NumericParameterEnum;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet.FinancialPendency;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.credtnet.FinancialPendency;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.ParameterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class FinancialPendencyProcessor implements AnalysisProcessor {
     @Override
     public ProcessPerson process(ProcessPerson item) throws Exception {
         try {
-            FinancialPendency pendency = item.getCrednet().getFinancialPendency();
+            FinancialPendency pendency = item.getCrednetResponse().getCrednet().getFinancialPendency();
 
             if (pendency.getHasInformation().trim().equalsIgnoreCase("SIM") &&
                     pendency.getContent().getFinancialPendencyDetail() == null) {
@@ -40,7 +40,8 @@ public class FinancialPendencyProcessor implements AnalysisProcessor {
             item.getProcessingHistory().setValueFinancialPendencies(personPendencyValue);
 
             if (personPendencyValue.compareTo(maxPendencyValue) > 0) {
-                throw new BusinessException("O valor de pendências financeiras (" + personPendencyValue + ") ultrapassou o limite (" + maxPendencyValue + ")");
+                throw new BusinessException("O valor de pendências financeiras (" + personPendencyValue
+                        + ") ultrapassou o limite (" + maxPendencyValue + ")");
             } else {
                 item.getProcessingHistory().setFinancialPendencyAnalysis(AnalysisStatusEnum.APPROVED);
                 return item;

@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS analysis_validation (
     id bigserial PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description VARCHAR(255),
-    info_type VARCHAR(50),
     active BOOLEAN NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP

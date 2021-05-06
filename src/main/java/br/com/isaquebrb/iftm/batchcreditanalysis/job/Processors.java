@@ -6,7 +6,7 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationE
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.InformationTypeEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.processor.AnalysisEndProcessor;
 import br.com.isaquebrb.iftm.batchcreditanalysis.processor.AnalysisStartProcessor;
-import br.com.isaquebrb.iftm.batchcreditanalysis.processor.SearchProcessor;
+import br.com.isaquebrb.iftm.batchcreditanalysis.processor.search.SearchProcessor;
 import br.com.isaquebrb.iftm.batchcreditanalysis.processor.analysis.AnalysisProcessor;
 import br.com.isaquebrb.iftm.batchcreditanalysis.processor.validator.ValidatorProcessor;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.AnalysisValidationService;
