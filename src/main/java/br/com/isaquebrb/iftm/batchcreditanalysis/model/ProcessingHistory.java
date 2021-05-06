@@ -23,4 +23,19 @@ public class ProcessingHistory {
 
     private BigDecimal valueFinancialPendencies;
     private AnalysisStatusEnum financialPendencyAnalysis;
+
+    private BigDecimal noPaymentRate;
+    private AnalysisStatusEnum noPaymentAnalysis;
+
+    private Boolean isPep;
+    private AnalysisStatusEnum pepAnalysis;
+
+    private Integer scoreSerasa;
+    private AnalysisStatusEnum scoreSerasaAnalysis;
+
+    private Boolean isDead;
+    private AnalysisStatusEnum deathAnalysis;
+
+    private BigDecimal valueStateProtests;
+    private AnalysisStatusEnum stateProtestAnalysis;
 }

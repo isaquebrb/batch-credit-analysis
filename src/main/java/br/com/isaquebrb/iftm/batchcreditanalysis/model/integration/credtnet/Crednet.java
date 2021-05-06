@@ -2,11 +2,9 @@ package br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.credtnet;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 
 @Getter
-@SuperBuilder
-public abstract class Crednet {
+public class Crednet {
 
     @JsonProperty("confirmei")
     protected CrednetPerson personInfo;
@@ -19,4 +17,25 @@ public abstract class Crednet {
 
     @JsonProperty("protesto_estadual")
     protected StateProtest stateProtest;
+
+    @JsonProperty("obito")
+    private Death death;
+
+    @JsonProperty("score_serasa")
+    private ScoreSerasa scoreSerasa;
+
+    @JsonProperty("renda_pro")
+    private PresumedIncome presumedIncome;
+
+    @JsonProperty("capacidade_mensal_pagamento")
+    private MonthlyPaymentCapacity monthlyPaymentCapacity;
+
+    @JsonProperty("recuperacao_credito")
+    private CreditRecovery creditRecovery;
+
+    @JsonProperty("faturamento_presumido")
+    private PresumedBilling presumedBilling;
+
+    @JsonProperty("classificacao_risco_credito")
+    private CreditRiskRating creditRiskRating;
 }

@@ -92,6 +92,7 @@ public class ParameterService {
         }
     }
 
+    //todo cache
     public Integer getParameter(IntegerParameterEnum parameter) {
         return repository.findByName(parameter.name()).map(Parameter::getIntegerValue)
                 .orElse(parameter.getDefaultValue());

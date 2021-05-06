@@ -1,11 +1,11 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model.integration.pep;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.List;
 
-@AllArgsConstructor
+@Getter
 public class Pep {
 
     @JsonProperty("pep")

@@ -25,8 +25,8 @@ public class BacenPendencyProcessor implements AnalysisProcessor {
         try {
             Bacen bacen = item.getCrednet().getBacen();
 
-            if (bacen.getHasInformation().equalsIgnoreCase("SIM") &&
-                    bacen.getContent().getBacenChecks().isEmpty()) {
+            if (bacen.getHasInformation().trim().equalsIgnoreCase("SIM") &&
+                    bacen.getContent().getBacenChecks() == null) {
                 item.getProcessingHistory().setValueBacenChecks(BigDecimal.ZERO);
                 item.getProcessingHistory().setBacenPendencyAnalysis(AnalysisStatusEnum.APPROVED);
                 return item;
@@ -48,12 +48,12 @@ public class BacenPendencyProcessor implements AnalysisProcessor {
                 return item;
             }
         } catch (BusinessException e) {
-            log.warn("[BacenPendencyProcessor.process] Documento {} {}", item.getCreditAnalysis().getDocument(), e.getMessage());
+            log.warn("[BacenPendencyProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage());
             item.getProcessingHistory().setBacenPendencyAnalysis(AnalysisStatusEnum.REJECTED);
             item.getCreditAnalysis().setRejectionReason(e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("[BacenPendencyProcessor.process] Documento {} {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
+            log.error("[BacenPendencyProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
             item.getProcessingHistory().setBacenPendencyAnalysis(AnalysisStatusEnum.ERROR);
             item.getCreditAnalysis().setRejectionReason("Erro desconhecido");
             throw e;

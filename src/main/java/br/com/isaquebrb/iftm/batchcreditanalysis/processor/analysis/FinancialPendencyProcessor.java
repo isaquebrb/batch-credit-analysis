@@ -25,14 +25,14 @@ public class FinancialPendencyProcessor implements AnalysisProcessor {
         try {
             FinancialPendency pendency = item.getCrednet().getFinancialPendency();
 
-            if (pendency.getHasInformation().equalsIgnoreCase("SIM") &&
-                    pendency.getContent().getFinancialPendencyDetail().getValue().isEmpty()) {
+            if (pendency.getHasInformation().trim().equalsIgnoreCase("SIM") &&
+                    pendency.getContent().getFinancialPendencyDetail() == null) {
                 item.getProcessingHistory().setValueFinancialPendencies(BigDecimal.ZERO);
                 item.getProcessingHistory().setFinancialPendencyAnalysis(AnalysisStatusEnum.APPROVED);
                 return item;
             }
 
-            BigDecimal maxPendencyValue = parameterService.getParameter(NumericParameterEnum.MAX_VALUE_BACEN_CHECKS);
+            BigDecimal maxPendencyValue = parameterService.getParameter(NumericParameterEnum.MAX_VALUE_FINANCIAL_PENDENCY);
 
             BigDecimal personPendencyValue = BigDecimal.valueOf(
                     Double.parseDouble(pendency.getContent().getFinancialPendencyDetail().getValue()));
@@ -46,12 +46,12 @@ public class FinancialPendencyProcessor implements AnalysisProcessor {
                 return item;
             }
         } catch (BusinessException e) {
-            log.warn("[FinancialPendencyProcessor.process] Documento {} {}", item.getCreditAnalysis().getDocument(), e.getMessage());
+            log.warn("[FinancialPendencyProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage());
             item.getProcessingHistory().setFinancialPendencyAnalysis(AnalysisStatusEnum.REJECTED);
             item.getCreditAnalysis().setRejectionReason(e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("[FinancialPendencyProcessor.process] Documento {} {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
+            log.error("[FinancialPendencyProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
             item.getProcessingHistory().setFinancialPendencyAnalysis(AnalysisStatusEnum.ERROR);
             item.getCreditAnalysis().setRejectionReason("Erro desconhecido");
             throw e;

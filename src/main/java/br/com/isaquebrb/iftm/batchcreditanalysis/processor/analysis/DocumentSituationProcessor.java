@@ -32,12 +32,12 @@ public class DocumentSituationProcessor implements AnalysisProcessor {
                 throw new BusinessException("A situação do documento na receita federal é inválida (" + personDocSituation + "). Válido = " + docSituation);
             }
         } catch (BusinessException e) {
-            log.warn("[DocumentSituationProcessor.process] Documento {} {}", item.getCreditAnalysis().getDocument(), e.getMessage());
+            log.warn("[DocumentSituationProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage());
             item.getProcessingHistory().setDocumentSituationAnalysis(AnalysisStatusEnum.REJECTED);
             item.getCreditAnalysis().setRejectionReason(e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("[DocumentSituationProcessor.process] Documento {} {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
+            log.error("[DocumentSituationProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
             item.getProcessingHistory().setDocumentSituationAnalysis(AnalysisStatusEnum.ERROR);
             item.getCreditAnalysis().setRejectionReason("Erro desconhecido");
             throw e;
@@ -46,6 +46,6 @@ public class DocumentSituationProcessor implements AnalysisProcessor {
 
     @Override
     public AnalysisValidationEnum getEnumName() {
-        return AnalysisValidationEnum.RF_DOCUMENT_SITUATION;
+        return AnalysisValidationEnum.DOCUMENT_SITUATION;
     }
 }

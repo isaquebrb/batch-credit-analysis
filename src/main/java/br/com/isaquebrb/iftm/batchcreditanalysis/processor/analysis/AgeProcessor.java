@@ -39,7 +39,7 @@ public class AgeProcessor implements AnalysisProcessor {
             item.getCreditAnalysis().setRejectionReason(e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("[AgeProcessor.process] {}", e.getMessage(), e);
+            log.error("[AgeProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
             item.getProcessingHistory().setAgeAnalysis(AnalysisStatusEnum.ERROR);
             item.getCreditAnalysis().setRejectionReason("Erro desconhecido");
             throw e;
