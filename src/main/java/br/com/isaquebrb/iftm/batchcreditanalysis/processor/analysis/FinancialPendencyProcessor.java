@@ -1,8 +1,8 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.processor.analysis;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
+import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.NumericParameterEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.credtnet.FinancialPendency;
@@ -12,6 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+import static br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum.*;
+import static br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum.MAXIMUM_VALUE_FINANCIAL_PENDENCY;
 
 @Slf4j
 @Component
@@ -27,40 +31,39 @@ public class FinancialPendencyProcessor implements AnalysisProcessor {
 
             if (pendency.getHasInformation().trim().equalsIgnoreCase("SIM") &&
                     pendency.getContent().getFinancialPendencyDetail() == null) {
-                item.getProcessingHistory().setValueFinancialPendencies(BigDecimal.ZERO);
-                item.getProcessingHistory().setFinancialPendencyAnalysis(AnalysisStatusEnum.APPROVED);
+                item.getCreditAnalysis().getProcessingHistory().setValueFinancialPendencies(BigDecimal.ZERO);
+                addStatus(item, MAXIMUM_VALUE_FINANCIAL_PENDENCY, APPROVED);
                 return item;
             }
 
             BigDecimal maxPendencyValue = parameterService.getParameter(NumericParameterEnum.MAX_VALUE_FINANCIAL_PENDENCY);
 
             BigDecimal personPendencyValue = BigDecimal.valueOf(
-                    Double.parseDouble(pendency.getContent().getFinancialPendencyDetail().getValue()));
+                    Double.parseDouble(pendency.getContent().getFinancialPendencyDetail().getValue()))
+                    .setScale(2, RoundingMode.HALF_DOWN);
 
-            item.getProcessingHistory().setValueFinancialPendencies(personPendencyValue);
+            item.getCreditAnalysis().getProcessingHistory().setValueFinancialPendencies(personPendencyValue);
 
             if (personPendencyValue.compareTo(maxPendencyValue) > 0) {
-                throw new BusinessException("O valor de pendências financeiras (" + personPendencyValue
+                throw new BusinessException("O valor de pendencias financeiras (" + personPendencyValue
                         + ") ultrapassou o limite (" + maxPendencyValue + ")");
             } else {
-                item.getProcessingHistory().setFinancialPendencyAnalysis(AnalysisStatusEnum.APPROVED);
+                addStatus(item, MAXIMUM_VALUE_FINANCIAL_PENDENCY, APPROVED);
                 return item;
             }
         } catch (BusinessException e) {
-            log.warn("[FinancialPendencyProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage());
-            item.getProcessingHistory().setFinancialPendencyAnalysis(AnalysisStatusEnum.REJECTED);
+            addStatus(item, MAXIMUM_VALUE_FINANCIAL_PENDENCY, REJECTED);
             item.getCreditAnalysis().setRejectionReason(e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("[FinancialPendencyProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
-            item.getProcessingHistory().setFinancialPendencyAnalysis(AnalysisStatusEnum.ERROR);
+            addStatus(item, MAXIMUM_VALUE_FINANCIAL_PENDENCY, ERROR);
             item.getCreditAnalysis().setRejectionReason("Erro desconhecido");
-            throw e;
+            throw new SystemException(e.getMessage());
         }
     }
 
     @Override
     public AnalysisValidationEnum getEnumName() {
-        return AnalysisValidationEnum.MAXIMUM_VALUE_FINANCIAL_PENDENCY;
+        return MAXIMUM_VALUE_FINANCIAL_PENDENCY;
     }
 }

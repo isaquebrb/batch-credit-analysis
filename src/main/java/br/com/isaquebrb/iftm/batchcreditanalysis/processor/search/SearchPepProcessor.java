@@ -29,6 +29,7 @@ public class SearchPepProcessor implements SearchProcessor {
             return item;
         } catch (Exception e) {
             throw new SystemException("");
+            //todo log error feign
         }
     }
 

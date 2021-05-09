@@ -12,8 +12,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class ProcessPerson {
-
-    ProcessingHistory processingHistory = new ProcessingHistory();
     CreditAnalysis creditAnalysis;
     CrednetResponse crednetResponse;
     DataResponse dataResponse;

@@ -1,5 +1,6 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.job;
 
+import br.com.isaquebrb.iftm.batchcreditanalysis.listener.AnotherListener;
 import br.com.isaquebrb.iftm.batchcreditanalysis.listener.CreditAnalysisListener;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class Steps {
     private final Processors processors;
     private final Writers writers;
     private final CreditAnalysisListener listener;
+    private final AnotherListener anotherListener;
 
     public Step processFileStep(String pathFile) {
         return stepBuilder.get("processFileStep")
@@ -25,6 +27,7 @@ public class Steps {
                 .processor(processors.documentProcessor())
                 .writer(writers.documentWriter())
                 .listener((ItemProcessListener<CreditAnalysis, CreditAnalysis>) listener)
+                .listener(anotherListener)
                 .faultTolerant()
                 .skipPolicy(new CustomSkipPolicy())
                 .build();

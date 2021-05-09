@@ -21,7 +21,7 @@ public class CreditAnalysisService {
         try {
             return repository.save(analysis);
         } catch (Exception e) {
-            log.error("[CreditAnalysisService.save] Error trying to save {}", analysis.toString(), e);
+            log.error("[CreditAnalysisService.save] Erro tentando salvar a analise ", analysis.toString(), e);
             throw new DatabaseException(e.getMessage());
         }
     }

@@ -1,6 +1,7 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.processor.analysis;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
+import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum;
@@ -12,6 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+import static br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum.*;
+import static br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum.MAXIMUM_VALUE_BACEN_PENDENCY;
 
 @Slf4j
 @Component
@@ -27,8 +32,8 @@ public class BacenPendencyProcessor implements AnalysisProcessor {
 
             if (bacen.getHasInformation().trim().equalsIgnoreCase("SIM") &&
                     bacen.getContent().getBacenChecks() == null) {
-                item.getProcessingHistory().setValueBacenChecks(BigDecimal.ZERO);
-                item.getProcessingHistory().setBacenPendencyAnalysis(AnalysisStatusEnum.APPROVED);
+                item.getCreditAnalysis().getProcessingHistory().setValueBacenChecks(BigDecimal.ZERO);
+                addStatus(item, MAXIMUM_VALUE_BACEN_PENDENCY, APPROVED);
                 return item;
             }
 
@@ -37,31 +42,30 @@ public class BacenPendencyProcessor implements AnalysisProcessor {
             BigDecimal personBacenValue = BigDecimal.valueOf(
                     bacen.getContent().getBacenChecks().stream()
                             .mapToDouble(d -> Double.parseDouble(d.getValue()))
-                            .sum());
+                            .sum()).
+                    setScale(2, RoundingMode.HALF_DOWN);
 
-            item.getProcessingHistory().setValueBacenChecks(personBacenValue);
+            item.getCreditAnalysis().getProcessingHistory().setValueBacenChecks(personBacenValue);
 
             if (personBacenValue.compareTo(maxBacenValue) >= 0) {
                 throw new BusinessException("O valor de cheques sem fundo (" + personBacenValue + ") ultrapassou o limite (" + maxBacenValue + ")");
             } else {
-                item.getProcessingHistory().setBacenPendencyAnalysis(AnalysisStatusEnum.APPROVED);
+                addStatus(item, MAXIMUM_VALUE_BACEN_PENDENCY, APPROVED);
                 return item;
             }
         } catch (BusinessException e) {
-            log.warn("[BacenPendencyProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage());
-            item.getProcessingHistory().setBacenPendencyAnalysis(AnalysisStatusEnum.REJECTED);
+            addStatus(item, MAXIMUM_VALUE_BACEN_PENDENCY, REJECTED);
             item.getCreditAnalysis().setRejectionReason(e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("[BacenPendencyProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
-            item.getProcessingHistory().setBacenPendencyAnalysis(AnalysisStatusEnum.ERROR);
+            addStatus(item, MAXIMUM_VALUE_BACEN_PENDENCY, ERROR);
             item.getCreditAnalysis().setRejectionReason("Erro desconhecido");
-            throw e;
+            throw new SystemException(e.getMessage());
         }
     }
 
     @Override
     public AnalysisValidationEnum getEnumName() {
-        return AnalysisValidationEnum.MAXIMUM_VALUE_BACEN_PENDENCY;
+        return MAXIMUM_VALUE_BACEN_PENDENCY;
     }
 }

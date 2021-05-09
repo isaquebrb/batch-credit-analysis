@@ -1,8 +1,15 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model.entity;
 
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessingHistory;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
-import lombok.*;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "credit_analysis")
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class CreditAnalysis {
 
     @Id
@@ -34,10 +42,10 @@ public class CreditAnalysis {
     @Column(name = "rejection_reason")
     private String rejectionReason;
 
-    @Column(name = "start_date")
+    @Column(name = "start_process_date")
     private LocalDateTime startDate;
 
-    @Column(name = "end_date")
+    @Column(name = "end_process_date")
     private LocalDateTime endDate;
 
     @Column(name = "email")
@@ -46,5 +54,7 @@ public class CreditAnalysis {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    //todo parameter table, process
+    @Type(type = "jsonb")
+    @Column(name = "processing_history", columnDefinition = "jsonb")
+    private ProcessingHistory processingHistory = new ProcessingHistory();
 }

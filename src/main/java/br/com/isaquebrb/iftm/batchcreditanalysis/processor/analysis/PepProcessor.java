@@ -1,13 +1,16 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.processor.analysis;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
+import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import static br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum.*;
+import static br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum.IS_PEP;
 
 @Slf4j
 @Component
@@ -23,29 +26,27 @@ public class PepProcessor implements AnalysisProcessor {
             boolean isPep = item.getPepResponse().getPep().getPepConfirmation().trim()
                     .equalsIgnoreCase("SIM");
 
-            item.getProcessingHistory().setIsPep(isPep);
+            item.getCreditAnalysis().getProcessingHistory().setIsPep(isPep);
 
             if (isPep) {
-                throw new BusinessException("É uma pessoa politicamente exposta");
+                throw new BusinessException("E uma pessoa politicamente exposta");
             } else {
-                item.getProcessingHistory().setPepAnalysis(AnalysisStatusEnum.APPROVED);
+                item.getCreditAnalysis().getProcessingHistory().getProcessorsStatus().put(IS_PEP, APPROVED);
                 return item;
             }
         } catch (BusinessException e) {
-            log.warn("[PepProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage());
-            item.getProcessingHistory().setPepAnalysis(AnalysisStatusEnum.REJECTED);
+            addStatus(item, IS_PEP, REJECTED);
             item.getCreditAnalysis().setRejectionReason(e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("[PepProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
-            item.getProcessingHistory().setPepAnalysis(AnalysisStatusEnum.ERROR);
+            addStatus(item, IS_PEP, ERROR);
             item.getCreditAnalysis().setRejectionReason("Erro desconhecido");
-            throw e;
+            throw new SystemException(e.getMessage());
         }
     }
 
     @Override
     public AnalysisValidationEnum getEnumName() {
-        return AnalysisValidationEnum.IS_PEP;
+        return IS_PEP;
     }
 }

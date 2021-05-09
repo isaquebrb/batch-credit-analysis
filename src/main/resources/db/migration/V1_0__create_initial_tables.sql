@@ -4,10 +4,11 @@ CREATE TABLE IF NOT EXISTS credit_analysis (
     status VARCHAR(20),
     person_type VARCHAR(10),
     rejection_reason VARCHAR(255),
-    start_date TIMESTAMP NOT NULL,
-    end_date TIMESTAMP NOT NULL,
+    start_process_date TIMESTAMP NOT NULL,
+    end_process_date TIMESTAMP NOT NULL,
     email VARCHAR(20),
-    phone_number VARCHAR(20)
+    phone_number VARCHAR(20),
+    processing_history JSONB
 );
 
 CREATE TABLE IF NOT EXISTS parameter (

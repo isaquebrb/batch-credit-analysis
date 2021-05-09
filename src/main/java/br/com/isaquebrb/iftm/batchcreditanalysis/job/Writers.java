@@ -21,11 +21,9 @@ public class Writers {
         return items -> {
             for (CreditAnalysis item : items) {
                 try {
-                    item.setEndDate(LocalDateTime.now());
-                    item.setStatus(AnalysisStatusEnum.APPROVED);
                     analysisService.save(item);
                 } catch (Exception e) {
-                    log.error("[CustomWriter.documentWriter] Error trying to write {} object.", item.toString(), e);
+                    log.error("[CustomWriter.documentWriter] Erro ao tentar salvar a analise {}", item.toString(), e);
                 }
             }
         };

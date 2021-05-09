@@ -1,6 +1,7 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.processor.analysis;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
+import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum;
@@ -9,6 +10,9 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.service.ParameterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import static br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum.*;
+import static br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum.DOCUMENT_SITUATION;
 
 @Slf4j
 @Component
@@ -23,29 +27,27 @@ public class DocumentSituationProcessor implements AnalysisProcessor {
             String docSituation = parameterService.getParameter(StringParameterEnum.RF_DOC_SITUATION);
             String personDocSituation = item.getCrednetResponse().getCrednet().getPersonInfo().getContent().getDocSituation().trim();
 
-            item.getProcessingHistory().setDocumentSituation(personDocSituation);
+            item.getCreditAnalysis().getProcessingHistory().setDocumentSituation(personDocSituation);
 
             if (personDocSituation.equals(docSituation)) {
-                item.getProcessingHistory().setDocumentSituationAnalysis(AnalysisStatusEnum.APPROVED);
+                addStatus(item, DOCUMENT_SITUATION, APPROVED);
                 return item;
             } else {
-                throw new BusinessException("A situação do documento na receita federal é inválida (" + personDocSituation + "). Válido = " + docSituation);
+                throw new BusinessException("A situacao do documento na receita federal e invalida (" + personDocSituation + "). Valido = " + docSituation);
             }
         } catch (BusinessException e) {
-            log.warn("[DocumentSituationProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage());
-            item.getProcessingHistory().setDocumentSituationAnalysis(AnalysisStatusEnum.REJECTED);
+            addStatus(item, DOCUMENT_SITUATION, REJECTED);
             item.getCreditAnalysis().setRejectionReason(e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("[DocumentSituationProcessor.process] Documento {}. {}", item.getCreditAnalysis().getDocument(), e.getMessage(), e);
-            item.getProcessingHistory().setDocumentSituationAnalysis(AnalysisStatusEnum.ERROR);
+            addStatus(item, DOCUMENT_SITUATION, ERROR);
             item.getCreditAnalysis().setRejectionReason("Erro desconhecido");
-            throw e;
+            throw new SystemException(e.getMessage());
         }
     }
 
     @Override
     public AnalysisValidationEnum getEnumName() {
-        return AnalysisValidationEnum.DOCUMENT_SITUATION;
+        return DOCUMENT_SITUATION;
     }
 }
