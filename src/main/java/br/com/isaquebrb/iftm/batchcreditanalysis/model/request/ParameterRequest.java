@@ -2,14 +2,12 @@ package br.com.isaquebrb.iftm.batchcreditanalysis.model.request;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.Parameter;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Getter
-@NoArgsConstructor
 @ToString
 public class ParameterRequest {
 
@@ -25,7 +23,7 @@ public class ParameterRequest {
 
     private Boolean booleanValue;
 
-    @NotNull(message = "Active is mandatory")
+    @NotNull(message = "Active é obrigatório")
     private Boolean active;
 
     public Parameter toEntity() {

@@ -3,7 +3,6 @@ package br.com.isaquebrb.iftm.batchcreditanalysis.processor.analysis;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ public class DeathProcessor implements AnalysisProcessor {
                 addStatus(item, DEATH, APPROVED);
                 return item;
             }
-
 
             boolean isDead = item.getCrednetResponse().getCrednet().getDeath().getContent().getMessage().trim()
                     .equalsIgnoreCase("OBITO");

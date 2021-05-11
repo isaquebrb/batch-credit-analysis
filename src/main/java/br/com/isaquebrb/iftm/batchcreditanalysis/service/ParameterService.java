@@ -2,14 +2,17 @@ package br.com.isaquebrb.iftm.batchcreditanalysis.service;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.DatabaseException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.parameter.BooleanParameterEnum;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.parameter.IntegerParameterEnum;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.parameter.NumericParameterEnum;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.parameter.StringParameterEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.request.ParameterRequest;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.ParameterResponse;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.Parameter;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.*;
 import br.com.isaquebrb.iftm.batchcreditanalysis.repository.ParameterRepository;
-import io.micrometer.core.instrument.Metrics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -28,9 +31,13 @@ public class ParameterService {
         try {
             Parameter newParameter = repository.save(request.toEntity());
             return newParameter.toDto();
+        } catch (DataIntegrityViolationException e) {
+            log.error("[ParameterService.save] Erro ao salvar o novo parametro, o nome {} ja existe",
+                    request.getName());
+            throw new DatabaseException("Erro ao salvar o novo parametro, o nome " + request.getName() + " ja existe");
         } catch (Exception e) {
-            log.error("[ParameterService.save] Error trying to save new parameter {}", request.toString(), e);
-            throw new DatabaseException("Error trying to save new parameter " + request.toString());
+            log.error("[ParameterService.save] Erro ao salvar o novo parametro {}", request.toString(), e);
+            throw new DatabaseException("Erro ao salvar o novo parametro " + request.toString());
         }
     }
 
@@ -40,15 +47,7 @@ public class ParameterService {
     }
 
     public ParameterResponse findById(Long id) {
-        try {
-            return getParameterById(id).toDto();
-        } catch (EntityNotFoundException e) {
-            log.error("[ParameterService.findById] Error trying to find parameter id {}", id);
-            throw new DatabaseException("Error trying to find parameter id " + id);
-        } catch (Exception e) {
-            log.error("[ParameterService.findById] Error trying to find parameter id {}", id, e);
-            throw new DatabaseException(e.getMessage());
-        }
+        return getParameterById(id).toDto();
     }
 
     public ParameterResponse update(Long id, ParameterRequest request) {
@@ -61,12 +60,13 @@ public class ParameterService {
         parameter.setBooleanValue(request.getBooleanValue());
         parameter.setActive(request.getActive());
 
-        //todo traduzir
         try {
             return repository.save(parameter).toDto();
         } catch (Exception e) {
-            log.error("[ParameterService.update] Error trying to update parameter {}", request.toString(), e);
-            throw new DatabaseException("Error trying to update parameter " + request.toString());
+            log.error("[ParameterService.update] Erro ao atualizar o parametro id {} com {}",
+                    id, request.toString(), e);
+            throw new DatabaseException("Erro ao atualizar o parametro id " + id +
+                    " com " + request.toString());
         }
     }
 
@@ -74,15 +74,14 @@ public class ParameterService {
         try {
             return repository.findById(id).orElseThrow(EntityNotFoundException::new);
         } catch (EntityNotFoundException e) {
-            log.error("[ParameterService.getParameterById] Error trying to find parameter id {}", id);
-            throw new DatabaseException("Error trying to find parameter id " + id);
+            log.error("[ParameterService.getParameterById] Erro ao buscar o parametro de id {}", id);
+            throw new DatabaseException("Erro ao buscar o parametro de id " + id);
         } catch (IllegalArgumentException e) {
-            log.error("[ParameterService.getParameterById] Id is null");
-            throw new SystemException("Error trying to get parameter with id null");
+            log.error("[ParameterService.getParameterById] O id esta vazio");
+            throw new SystemException("O id esta vazio");
         }
     }
 
-    //todo cache
     public Integer getParameter(IntegerParameterEnum parameter) {
         return repository.findByName(parameter.name()).map(Parameter::getIntegerValue)
                 .orElse(parameter.getDefaultValue());

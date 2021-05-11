@@ -4,7 +4,7 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.exception.BusinessException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisValidationEnum;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.NumericParameterEnum;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.parameter.NumericParameterEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.credtnet.StateProtest;
 import br.com.isaquebrb.iftm.batchcreditanalysis.service.ParameterService;
 import lombok.RequiredArgsConstructor;

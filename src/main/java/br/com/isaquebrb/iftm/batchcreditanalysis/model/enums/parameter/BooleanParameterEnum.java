@@ -1,4 +1,4 @@
-package br.com.isaquebrb.iftm.batchcreditanalysis.model.enums;
+package br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.parameter;
 
 import lombok.Getter;
 

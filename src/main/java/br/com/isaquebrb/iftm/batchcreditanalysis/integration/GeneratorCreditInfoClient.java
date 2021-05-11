@@ -2,8 +2,6 @@ package br.com.isaquebrb.iftm.batchcreditanalysis.integration;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.CrednetResponse;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.DataResponse;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.credtnet.Crednet;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.data.Data;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.request.DocumentRequest;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.PepResponse;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS credit_analysis (
 
 CREATE TABLE IF NOT EXISTS parameter (
     id bigserial PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(255),
     string_value VARCHAR(100),
     integer_value INTEGER,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS parameter (
 
 CREATE TABLE IF NOT EXISTS analysis_validation (
     id bigserial PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(255),
     active BOOLEAN NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),

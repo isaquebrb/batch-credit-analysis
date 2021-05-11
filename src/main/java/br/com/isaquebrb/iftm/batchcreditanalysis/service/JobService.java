@@ -7,7 +7,6 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.configuration.JobLocator;
-import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.*;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
@@ -53,7 +52,6 @@ public class JobService {
         if (e instanceof NoSuchJobException) {
             message = "Erro ao tentar localizar o job " + jobName;
         } else if (e instanceof JobRestartException) {
-            //todo test restart
             message = "Erro ao reiniciar o job " + jobName;
         } else if (e instanceof JobExecutionAlreadyRunningException) {
             message = "O job " + jobName + " ja esta em execucao";

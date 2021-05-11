@@ -30,9 +30,7 @@ public class Processors {
 
     public ItemProcessor<CreditAnalysis, CreditAnalysis> documentProcessor() {
         CompositeItemProcessor<CreditAnalysis, CreditAnalysis> compose = new CompositeItemProcessor<>();
-
         compose.setDelegates(getDocumentProcessorList());
-
         return compose;
     }
 
