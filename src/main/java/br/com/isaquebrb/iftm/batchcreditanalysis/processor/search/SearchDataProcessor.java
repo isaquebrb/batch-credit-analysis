@@ -4,14 +4,18 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.integration.GeneratorCreditInfoClient;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.InformationTypeEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.request.DocumentRequest;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.DataResponse;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.data.Data;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SearchDataProcessor implements SearchProcessor {
@@ -20,12 +24,20 @@ public class SearchDataProcessor implements SearchProcessor {
 
     @Override
     public ProcessPerson process(ProcessPerson item) throws Exception {
-        CreditAnalysis analysis = item.getCreditAnalysis();
-        DataResponse dataResponse = getData(analysis.getPersonType(), analysis.getDocument());
+        try {
+            CreditAnalysis analysis = item.getCreditAnalysis();
 
-        setData(item, dataResponse);
+            DataResponse dataResponse = getData(analysis.getPersonType(), analysis.getDocument());
 
-        return item;
+            setData(item, dataResponse);
+
+            return item;
+        } catch (Exception e) {
+            item.getCreditAnalysis().setRejectionReason(e.getMessage());
+            item.getCreditAnalysis().setStatus(AnalysisStatusEnum.ERROR);
+            throw e;
+        }
+
     }
 
     @Override
@@ -43,8 +55,9 @@ public class SearchDataProcessor implements SearchProcessor {
                 dataResponse = generatorInfoClient.getDataPj(new DocumentRequest(document));
 
             return dataResponse;
-        } catch (Exception e) {
-            throw new SystemException("");
+        } catch (FeignException e) {
+            log.error("[SearchDataProcessor.process] {}", buildFeignErrorMsg(e));
+            throw new SystemException("Erro ao buscar informacao DATA (dados pessoais)");
         }
     }
 

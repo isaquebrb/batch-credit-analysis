@@ -28,7 +28,7 @@ public class ParameterController {
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<ParameterResponse> create(@RequestBody ParameterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(request));
     }

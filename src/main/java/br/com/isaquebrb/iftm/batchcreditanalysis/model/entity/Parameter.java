@@ -43,6 +43,7 @@ public class Parameter extends BaseEntity {
 
     public ParameterResponse toDto() {
         return ParameterResponse.builder()
+                .id(this.id)
                 .name(this.name)
                 .description(this.description)
                 .stringValue(this.stringValue)

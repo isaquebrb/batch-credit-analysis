@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Slf4j
@@ -21,11 +20,6 @@ import java.util.List;
 public class CreditAnalysisListener extends ItemListenerSupport<CreditAnalysis, CreditAnalysis> {
 
     private final CreditAnalysisService creditAnalysisService;
-
-    @Override
-    public void onWriteError(Exception ex, List<? extends CreditAnalysis> item) {
-        log.error("");
-    }
 
     @Override
     public void onProcessError(CreditAnalysis item, Exception e) {

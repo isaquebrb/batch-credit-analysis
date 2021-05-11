@@ -4,13 +4,17 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.exception.SystemException;
 import br.com.isaquebrb.iftm.batchcreditanalysis.integration.GeneratorCreditInfoClient;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessPerson;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.InformationTypeEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.request.DocumentRequest;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.CrednetResponse;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SearchCrednetProcessor implements SearchProcessor {
@@ -19,10 +23,16 @@ public class SearchCrednetProcessor implements SearchProcessor {
 
     @Override
     public ProcessPerson process(ProcessPerson item) {
-        CreditAnalysis creditAnalysis = item.getCreditAnalysis();
-        CrednetResponse crednetResponse = getCrednet(creditAnalysis.getPersonType(), creditAnalysis.getDocument());
-        item.setCrednetResponse(crednetResponse);
-        return item;
+        try {
+            CreditAnalysis creditAnalysis = item.getCreditAnalysis();
+            CrednetResponse crednetResponse = getCrednet(creditAnalysis.getPersonType(), creditAnalysis.getDocument());
+            item.setCrednetResponse(crednetResponse);
+            return item;
+        } catch (Exception e) {
+            item.getCreditAnalysis().setRejectionReason(e.getMessage());
+            item.getCreditAnalysis().setStatus(AnalysisStatusEnum.ERROR);
+            throw e;
+        }
     }
 
     @Override
@@ -40,8 +50,9 @@ public class SearchCrednetProcessor implements SearchProcessor {
                 crednetResponse = generatorInfoClient.getCrednetPj(new DocumentRequest(document));
 
             return crednetResponse;
-        } catch (Exception e) {
-            throw new SystemException("");
+        } catch (FeignException e) {
+            log.error("[SearchCrednetProcessor.process] {}", buildFeignErrorMsg(e));
+            throw new SystemException("Erro ao buscar informacao CREDNET");
         }
     }
 }

@@ -7,9 +7,9 @@ import br.com.isaquebrb.iftm.batchcreditanalysis.model.response.ParameterRespons
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.Parameter;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.*;
 import br.com.isaquebrb.iftm.batchcreditanalysis.repository.ParameterRepository;
+import io.micrometer.core.instrument.Metrics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -28,9 +28,6 @@ public class ParameterService {
         try {
             Parameter newParameter = repository.save(request.toEntity());
             return newParameter.toDto();
-        } catch (DataIntegrityViolationException e) {
-            log.error("[ParameterService.save] The name {} already exist in parameter table", request.getName(), e);
-            throw new DatabaseException("The name " + request.getName() + " already exist in parameter table");
         } catch (Exception e) {
             log.error("[ParameterService.save] Error trying to save new parameter {}", request.toString(), e);
             throw new DatabaseException("Error trying to save new parameter " + request.toString());
@@ -56,27 +53,20 @@ public class ParameterService {
 
     public ParameterResponse update(Long id, ParameterRequest request) {
         Parameter parameter = getParameterById(id);
+        parameter.setName(request.getName());
         parameter.setDescription(request.getDescription());
         parameter.setStringValue(request.getStringValue());
         parameter.setIntegerValue(request.getIntegerValue());
         parameter.setNumericValue(request.getNumericValue());
         parameter.setBooleanValue(request.getBooleanValue());
+        parameter.setActive(request.getActive());
 
+        //todo traduzir
         try {
             return repository.save(parameter).toDto();
         } catch (Exception e) {
             log.error("[ParameterService.update] Error trying to update parameter {}", request.toString(), e);
             throw new DatabaseException("Error trying to update parameter " + request.toString());
-        }
-    }
-
-    public Parameter findByName(String name) {
-        try {
-            return repository.findByName(name).orElseThrow(EntityNotFoundException::new);
-        } catch (EntityNotFoundException e) {
-            //todo test non existing name
-            log.error("[ParameterService.findByName] Error trying get parameter with name {}", name);
-            throw new SystemException("");
         }
     }
 
@@ -103,7 +93,7 @@ public class ParameterService {
                 .orElse(parameter.getDefaultValue());
     }
 
-    public BigDecimal getParameter(NumericParameterEnum parameter){
+    public BigDecimal getParameter(NumericParameterEnum parameter) {
         return repository.findByName(parameter.name()).map(Parameter::getNumericValue)
                 .orElse(parameter.getDefaultValue());
     }

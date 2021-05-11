@@ -2,7 +2,9 @@ package br.com.isaquebrb.iftm.batchcreditanalysis.job;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,7 @@ public class Jobs {
 
     private final JobBuilderFactory jobBuilder;
     private final Steps step;
+    private final JobRegistry jobRegistry;
 
     @Value("${file.input}")
     private String pathFile;
@@ -37,8 +40,13 @@ public class Jobs {
                 .build();
     }
 
-    /* Stop a service
-    Set<Long> executions = jobOperator.getRunningExecutions("sampleJob");
-    jobOperator.stop(executions.iterator().next());
-    */
+    /**
+     *  Register jobs in context to be used in a job locator/operator
+     */
+    @Bean
+    public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor() {
+        JobRegistryBeanPostProcessor postProcessor = new JobRegistryBeanPostProcessor();
+        postProcessor.setJobRegistry(jobRegistry);
+        return postProcessor;
+    }
 }

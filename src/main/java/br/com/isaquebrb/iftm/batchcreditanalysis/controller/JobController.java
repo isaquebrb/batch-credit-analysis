@@ -1,35 +1,41 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.controller;
 
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
-import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
-import br.com.isaquebrb.iftm.batchcreditanalysis.service.CreditAnalysisService;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.request.JobRequest;
+import br.com.isaquebrb.iftm.batchcreditanalysis.service.JobService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.*;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/job")
 public class JobController {
 
-    private final JobLauncher jobLauncher;
-    private final CreditAnalysisService service;
-    private final Job processFileJobSample;
+    private final JobService jobService;
 
-    @GetMapping("/start")
-    public ResponseEntity<Void> startJob() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
-        JobParameters parameters = new JobParametersBuilder().addLong("uniqueJob", System.nanoTime()).toJobParameters();
-        JobExecution execution = jobLauncher.run(processFileJobSample, parameters);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/run")
+    public ResponseEntity<Void> startJob(@RequestBody @Valid JobRequest request) {
+        if (request.getParameters() == null || request.getParameters().isEmpty())
+            request.setParameters(getDefaultParams());
+
+        jobService.runJob(request.getJobName(), request.getParameters());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/stop")
+    public ResponseEntity<Void> stopJob(@RequestBody @Valid JobRequest request) {
+        jobService.stopJob(request.getJobName());
+        return ResponseEntity.ok().build();
+    }
+
+    private JobParameters getDefaultParams() {
+        return new JobParametersBuilder().addLong("uniqueJob", System.nanoTime()).toJobParameters();
     }
 }

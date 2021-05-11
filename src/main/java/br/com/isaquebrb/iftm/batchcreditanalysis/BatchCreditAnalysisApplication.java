@@ -4,10 +4,12 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableFeignClients
 @EnableBatchProcessing
 @SpringBootApplication
+@EnableAsync
 public class BatchCreditAnalysisApplication {
 
     public static void main(String[] args) {
