@@ -15,6 +15,7 @@ public class AnalysisValidationService {
 
     private final AnalysisValidationRepository repository;
 
+    //todo cache
     public List<AnalysisValidation> findAllByActive(Boolean isActive) {
         return repository.findAllByActive(isActive);
     }
