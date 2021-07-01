@@ -1,7 +1,7 @@
 INSERT INTO parameter (name, description, string_value, integer_value, numeric_value, boolean_value, active)
 VALUES
-    ('MIN_AGE','Idade Máxima', null, 18, null, null,  TRUE),
-    ('MAX_AGE','Idade Mínima', null, 60, null, null,  TRUE),
+    ('MIN_AGE','Idade Mínima', null, 18, null, null,  TRUE),
+    ('MAX_AGE','Idade Máxima', null, 60, null, null,  TRUE),
     ('MIN_SCORE_SERASA','Score mínimo de Serasa', null, 300, null, null,  TRUE),
     ('MAX_VALUE_BACEN_CHECKS','Valor máximo de cheques sem fundo', null, null, 500, null,  TRUE),
     ('MAX_VALUE_FINANCIAL_PENDENCY','Valor máximo de pedências financeiras', null, null, 500, null,  TRUE),

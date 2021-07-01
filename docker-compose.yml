@@ -9,8 +9,10 @@ services:
       POSTGRES_PASSWORD: 4n4l1s1s
     ports:
       - 5432:5432
-
-  adminer:
-    image: adminer
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
     ports:
-      - 5050:8080
+      - 5050:80
