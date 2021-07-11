@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS credit_analysis (
     end_process_date TIMESTAMP NOT NULL,
     email VARCHAR(20),
     phone_number VARCHAR(20),
-    processing_history JSONB
+    processing_history JSONB,
+    job_execution_id bigint NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS parameter (

@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.springframework.batch.core.JobExecution;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -57,4 +58,7 @@ public class CreditAnalysis {
     @Type(type = "jsonb")
     @Column(name = "processing_history", columnDefinition = "jsonb")
     private ProcessingHistory processingHistory = new ProcessingHistory();
+
+    @Column(name = "job_execution_id")
+    private Long jobExecutionId;
 }

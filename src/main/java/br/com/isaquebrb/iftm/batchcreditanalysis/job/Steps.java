@@ -15,16 +15,16 @@ public class Steps {
     private final StepBuilderFactory stepBuilder;
     private final Readers readers;
     private final Processors processors;
-    private final Writers writers;
-    private final CreditAnalysisListener listener;
+    private final CreditAnalysisWriter creditAnalysisWriter;
+    private final CreditAnalysisListener creditAnalysisListener;
 
     public Step processFileStep(String pathFile) {
         return stepBuilder.get("processFileStep")
                 .<CreditAnalysis, CreditAnalysis>chunk(100)
                 .reader(readers.documentReader(pathFile))
                 .processor(processors.documentProcessor())
-                .writer(writers.documentWriter())
-                .listener((ItemProcessListener<CreditAnalysis, CreditAnalysis>) listener)
+                .writer(creditAnalysisWriter)
+                .listener(creditAnalysisListener)
                 .faultTolerant()
                 .skipPolicy(new CustomSkipPolicy())
                 .build();
