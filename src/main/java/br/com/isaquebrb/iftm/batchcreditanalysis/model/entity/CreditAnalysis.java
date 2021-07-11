@@ -1,6 +1,7 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.model.entity;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.ProcessingHistory;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.dto.CreditAnalysisDTO;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.PersonTypeEnum;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
@@ -10,7 +11,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import org.springframework.batch.core.JobExecution;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -61,4 +61,19 @@ public class CreditAnalysis {
 
     @Column(name = "job_execution_id")
     private Long jobExecutionId;
+
+
+    public CreditAnalysisDTO toDto() {
+        return CreditAnalysisDTO.builder()
+                .id(this.id)
+                .jobExecutionId(this.jobExecutionId)
+                .personType(this.personType)
+                .rejectionReason(this.rejectionReason)
+                .status(this.status)
+                .document(this.document)
+                .email(this.email)
+                .phoneNumber(this.phoneNumber)
+                .startDate(this.startDate)
+                .endDate(this.endDate).build();
+    }
 }

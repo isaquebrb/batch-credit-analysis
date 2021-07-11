@@ -1,6 +1,7 @@
 package br.com.isaquebrb.iftm.batchcreditanalysis.repository;
 
 import br.com.isaquebrb.iftm.batchcreditanalysis.model.entity.CreditAnalysis;
+import br.com.isaquebrb.iftm.batchcreditanalysis.model.enums.AnalysisStatusEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,6 @@ public interface CreditAnalysisRepository extends JpaRepository<CreditAnalysis, 
     Page<CreditAnalysis> findAllByJobExecutionId(Long jobExecutionId, Pageable pageable);
 
     List<CreditAnalysis> findAllByDocument(String document);
+
+    Page<CreditAnalysis> findAllByJobExecutionIdAndStatus(Long jobExecutionId, AnalysisStatusEnum status, Pageable pageable);
 }
